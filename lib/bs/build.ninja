@@ -1,0 +1,109 @@
+ppx_checked_files = /Users/matthagner/code/learning/reason/new-yay/node_modules/bs-emotion-ppx/ppx
+bs_package_flags = -bs-package-name wow-yay
+src_root_dir = /Users/matthagner/code/learning/reason/new-yay
+bsc = /Users/matthagner/code/learning/reason/new-yay/node_modules/bs-platform/lib/bsc.exe
+bsdep = /Users/matthagner/code/learning/reason/new-yay/node_modules/bs-platform/lib/bsb_helper.exe
+warnings = -w -30-40+6+7+27+32..39+44+45+101
+bsc_flags = -bs-suffix -nostdlib -I '/Users/matthagner/code/learning/reason/new-yay/node_modules/bs-platform/lib/ocaml' -color always
+ppx_flags = -ppx '/Users/matthagner/code/learning/reason/new-yay/node_modules/bs-emotion-ppx/ppx'
+bs_package_includes = -I /Users/matthagner/code/learning/reason/new-yay/node_modules/reason-react/lib/ocaml -I /Users/matthagner/code/learning/reason/new-yay/node_modules/bs-emotion/lib/ocaml
+bs_package_dev_includes = 
+namespace = 
+bsb_dir_group = 0
+refmt = /Users/matthagner/code/learning/reason/new-yay/node_modules/bs-platform/lib/refmt.exe
+reason_react_jsx = -ppx '/Users/matthagner/code/learning/reason/new-yay/node_modules/bs-platform/lib/reactjs_jsx_ppx_3.exe'
+refmt_flags = --print binary
+bsc_lib_includes = -I src/component -I src/components -I src/page -I src
+rule build_ast_and_module_sets_from_re
+  command = ${bsc} -pp "${refmt} ${refmt_flags}" ${reason_react_jsx}  ${ppx_flags} ${warnings} ${bsc_flags} -c -o ${out} -bs-syntax-only -bs-binary-ast -impl ${in}
+  description = [34mBuilding[39m [2m${out}[22m
+build src/App.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/App.re |  ${ppx_checked_files}
+rule build_deps
+  command = ${bsdep} ${namespace} -g ${bsb_dir_group} -MD ${in}
+  restat = 1
+  description = [34mBuilding[39m [2m${out}[22m
+build src/App.mlast.d : build_deps src/App.mlast |  ${ppx_checked_files}
+rule build_cmj_cmi
+  command = ${bsc} ${bs_package_flags} -bs-assume-no-mli -bs-no-builtin-ppx-ml -bs-no-implicit-include ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${warnings} ${bsc_flags} ${gentypeconfig} -o ${out} -c  ${in} $postbuild
+  depfile = ${in}.d
+  restat = 1
+  description = [34mBuilding[39m [2m${out}[22m
+build src/App.cmj |  $src_root_dir/src/App.bs.js src/App.cmi : build_cmj_cmi src/App.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src
+build src/Cuid.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/Cuid.re |  ${ppx_checked_files}
+build src/Cuid.mlast.d : build_deps src/Cuid.mlast |  ${ppx_checked_files}
+build src/Cuid.cmj |  $src_root_dir/src/Cuid.bs.js src/Cuid.cmi : build_cmj_cmi src/Cuid.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src
+build src/main.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/main.re |  ${ppx_checked_files}
+build src/main.mlast.d : build_deps src/main.mlast |  ${ppx_checked_files}
+build src/main.cmj |  $src_root_dir/src/main.bs.js src/main.cmi : build_cmj_cmi src/main.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src
+build src/UseCount.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/UseCount.re |  ${ppx_checked_files}
+build src/UseCount.mlast.d : build_deps src/UseCount.mlast |  ${ppx_checked_files}
+build src/UseCount.cmj |  $src_root_dir/src/UseCount.bs.js src/UseCount.cmi : build_cmj_cmi src/UseCount.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src
+build src/page/Home.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/page/Home.re |  ${ppx_checked_files}
+build src/page/Home.mlast.d : build_deps src/page/Home.mlast |  ${ppx_checked_files}
+build src/page/Home.cmj |  $src_root_dir/src/page/Home.bs.js src/page/Home.cmi : build_cmj_cmi src/page/Home.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/page
+build src/page/AllTask.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/page/AllTask.re |  ${ppx_checked_files}
+build src/page/AllTask.mlast.d : build_deps src/page/AllTask.mlast |  ${ppx_checked_files}
+build src/page/AllTask.cmj |  $src_root_dir/src/page/AllTask.bs.js src/page/AllTask.cmi : build_cmj_cmi src/page/AllTask.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/page
+build src/page/NewTask.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/page/NewTask.re |  ${ppx_checked_files}
+build src/page/NewTask.mlast.d : build_deps src/page/NewTask.mlast |  ${ppx_checked_files}
+build src/page/NewTask.cmj |  $src_root_dir/src/page/NewTask.bs.js src/page/NewTask.cmi : build_cmj_cmi src/page/NewTask.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/page
+build src/page/AllTasks.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/page/AllTasks.re |  ${ppx_checked_files}
+build src/page/AllTasks.mlast.d : build_deps src/page/AllTasks.mlast |  ${ppx_checked_files}
+build src/page/AllTasks.cmj |  $src_root_dir/src/page/AllTasks.bs.js src/page/AllTasks.cmi : build_cmj_cmi src/page/AllTasks.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/page
+build src/page/NotFound.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/page/NotFound.re |  ${ppx_checked_files}
+build src/page/NotFound.mlast.d : build_deps src/page/NotFound.mlast |  ${ppx_checked_files}
+build src/page/NotFound.cmj |  $src_root_dir/src/page/NotFound.bs.js src/page/NotFound.cmi : build_cmj_cmi src/page/NotFound.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/page
+build src/page/TaskPage.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/page/TaskPage.re |  ${ppx_checked_files}
+build src/page/TaskPage.mlast.d : build_deps src/page/TaskPage.mlast |  ${ppx_checked_files}
+build src/page/TaskPage.cmj |  $src_root_dir/src/page/TaskPage.bs.js src/page/TaskPage.cmi : build_cmj_cmi src/page/TaskPage.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/page
+build src/components/Task.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/components/Task.re |  ${ppx_checked_files}
+build src/components/Task.mlast.d : build_deps src/components/Task.mlast |  ${ppx_checked_files}
+build src/components/Task.cmj |  $src_root_dir/src/components/Task.bs.js src/components/Task.cmi : build_cmj_cmi src/components/Task.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/components
+build src/components/Button.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/components/Button.re |  ${ppx_checked_files}
+build src/components/Button.mlast.d : build_deps src/components/Button.mlast |  ${ppx_checked_files}
+build src/components/Button.cmj |  $src_root_dir/src/components/Button.bs.js src/components/Button.cmi : build_cmj_cmi src/components/Button.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/components
+build src/components/Counter.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/components/Counter.re |  ${ppx_checked_files}
+build src/components/Counter.mlast.d : build_deps src/components/Counter.mlast |  ${ppx_checked_files}
+build src/components/Counter.cmj |  $src_root_dir/src/components/Counter.bs.js src/components/Counter.cmi : build_cmj_cmi src/components/Counter.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/components
+build src/components/TaskInput.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/components/TaskInput.re |  ${ppx_checked_files}
+build src/components/TaskInput.mlast.d : build_deps src/components/TaskInput.mlast |  ${ppx_checked_files}
+build src/components/TaskInput.cmj |  $src_root_dir/src/components/TaskInput.bs.js src/components/TaskInput.cmi : build_cmj_cmi src/components/TaskInput.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/components
+build src/component/Blah.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/component/Blah.re |  ${ppx_checked_files}
+build src/component/Blah.mlast.d : build_deps src/component/Blah.mlast |  ${ppx_checked_files}
+build src/component/Blah.cmj |  $src_root_dir/src/component/Blah.bs.js src/component/Blah.cmi : build_cmj_cmi src/component/Blah.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/component
+build src/component/Link.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/component/Link.re |  ${ppx_checked_files}
+build src/component/Link.mlast.d : build_deps src/component/Link.mlast |  ${ppx_checked_files}
+build src/component/Link.cmj |  $src_root_dir/src/component/Link.bs.js src/component/Link.cmi : build_cmj_cmi src/component/Link.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/component
+build build.ninja : phony  ||  src/component/Link.mlast.d src/component/Blah.mlast.d src/components/TaskInput.mlast.d src/components/Counter.mlast.d src/components/Button.mlast.d src/components/Task.mlast.d src/page/TaskPage.mlast.d src/page/NotFound.mlast.d src/page/AllTasks.mlast.d src/page/NewTask.mlast.d src/page/AllTask.mlast.d src/page/Home.mlast.d src/UseCount.mlast.d src/main.mlast.d src/Cuid.mlast.d src/App.mlast.d
